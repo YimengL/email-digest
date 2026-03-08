@@ -7,7 +7,7 @@ load_dotenv()
 client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 
 
-def summarize_emails(emails):
+def summarize_emails(emails, context=""):
     email_text = ""
     for i, email in enumerate(emails, 1):
         email_text += f"\n--- Email {i} ---\n"
@@ -15,10 +15,12 @@ def summarize_emails(emails):
         email_text += f"Subject: {email['subject']}\n"
         email_text += f"Body: {email['body'][:600]}\n"
     
+    context_section = f"\n\nPersonal context from my notes:\n{context}" if context else ""
+    
     response = client.messages.create(
         model="claude-haiku-4-5-20251001",
         max_tokens=1024,
-        system="""You are a personal email assistant.
+        system=f"""You are a personal email assistant.{context_section}
         Summarize the emails into 3 tiers:
         1. ACTION REQUIRED - needs a response or action
         2. IMPORTANT - good to know but no action needed
