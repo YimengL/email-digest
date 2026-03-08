@@ -29,4 +29,5 @@ jobs:
           SMTP_SENDER: ${{ secrets.SMTP_SENDER }}
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           SMTP_RECIPIENT: ${{ secrets.SMTP_RECIPIENT }}
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
         run: python src/main.py
